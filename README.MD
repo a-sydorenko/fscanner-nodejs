@@ -46,7 +46,7 @@ function someBidRequestHandler (adm, someOptions, ...otherArgs) {
     const data = prepareDataExampleFunction(someOptions)
     
     // append script tag (recommended)
-    const { ii, tag } = client.getImpressionScriptTag(data)
+    const { ii, tag } = client.getImpressionImageTag(data)
     
     // or append image tag (not recommended)
     // const { ii, tag } = client.getImpressionScriptTag(data)
