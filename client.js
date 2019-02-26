@@ -41,7 +41,7 @@ class Client {
         this.id = opts.id
         this.key = opts.key
         this.impUrl = `//${ opts.host }/scan?`
-        this.clickUrl = `//${ opts.host }/click?ii={ii}&p=${ opts.id }`
+        this.clickUrl = `//${ opts.host }/click?ii={ii}&e=${ opts.id }-{query}`
         this.tmpl = collectorTemplate(this.impUrl, this.id)
     }
 
@@ -81,6 +81,7 @@ class Client {
         const ii = identifier()
         return {
             ii,
+            clickId: data.click_id,
             queryHash,
             tag: imageTag.replace(RE_TEMPLATE, this.getImpressionPixelUrl(+(+data.js === 1), ii, queryHash))
         }
@@ -97,6 +98,7 @@ class Client {
         const { ii, queryHash, tag } = this.getImpressionImageTag(data)
         return {
             ii,
+            clickId: data.click_id,
             queryHash,
             tag: this.tmpl
                 .replace(RE_IMPRESSION_ID, ii)
@@ -109,11 +111,15 @@ class Client {
      * @method getClickPixelUrl
      * @description get pixel to track click
      * @param {string} ii - impression identifier
+     * @param {string} clickId - click identifier
      * @returns {string} - click url string
      * */
 
-    getClickPixelUrl (ii) {
-        return this.clickUrl.replace(RE_IMPRESSION_ID, ii)
+    getClickPixelUrl (ii, clickId) {
+        const query = `v=${ Math.trunc(Date.now() / 1000) + 86400 }&click_id=${ clickId }`
+        return this.clickUrl
+            .replace(RE_IMPRESSION_ID, ii)
+            .replace(RE_QUERY_HASH, Cryptographer.encrypt(query, this.key))
     }
 }
 
@@ -140,12 +146,16 @@ module.exports = Client
  * @param {string|number} data.js       - shows inventory supports javascript (1 - true, 0 - false)
  * @param {string|number} data.event    - tracked event type (1 - impression, 2 - click)
  * @param {string|number} data.ac       - await for the click (1 - true, 0 - false)
+ * @param {string} data.click_id - internal
  * @returns {string} - query string
  * */
 
 function stringifyParams (data) {
     const pairs = [`v=${ Math.trunc(Date.now() / 1000) + 600 }`]
 
+    if (data.ac === 1) {
+        data.click_id = identifier()
+    }
     for (const field of allowedFields) {
         if (data[field] !== void 0) {
             pairs.push(`${ field }=${ data[field] }`)

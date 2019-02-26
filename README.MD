@@ -46,15 +46,15 @@ function someBidRequestHandler (adm, someOptions, ...otherArgs) {
     const data = prepareDataExampleFunction(someOptions)
     
     // append script tag (recommended)
-    const { ii, tag } = client.getImpressionImageTag(data)
+    const { clickId, ii, tag } = client.getImpressionImageTag(data)
     
     // or append image tag (not recommended)
-    // const { ii, tag } = client.getImpressionScriptTag(data)
+    // const { clickId, ii, tag } = client.getImpressionScriptTag(data)
     
     adm += tag
     
     // to get click pixel
-    const clickPixel = client.getClickPixelUrl(ii)
+    const clickPixel = client.getClickPixelUrl(ii, clickId)
     
     // ii (impression identifier) must be the same as for impression as for click
     // ... 
