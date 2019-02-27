@@ -43,6 +43,7 @@ describe(`Client tests`, () => {
         const data = createData()
         const queryHash = client.encryptData(data)
         const ii = identifier()
+        const clickId = identifier()
 
         const impUrl = 'http:' + client.getImpressionPixelUrl(1, ii, queryHash)
         strictEqual('string', typeof impUrl)
@@ -56,8 +57,9 @@ describe(`Client tests`, () => {
         strictEqual('1', parsedImpQuery.img)
         strictEqual(client.id + '-' + queryHash, parsedImpQuery.e)
 
-        const clickUrl = 'http:' + client.getClickPixelUrl(data, ii)
+        const clickUrl = 'http:' + client.getClickPixelUrl(ii, clickId)
         strictEqual('string', typeof clickUrl)
+        strictEqual(true, new RegExp(`ii=${ ii }`).test(clickUrl))
 
         const parsedClickUrl = url.parse(clickUrl)
         strictEqual('fscanner.com', parsedClickUrl.hostname)
