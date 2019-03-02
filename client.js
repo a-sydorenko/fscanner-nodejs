@@ -131,6 +131,7 @@ module.exports = Client
  * @param {object} data                 - object, which has to be transformed to the string
  * @param {string} [data.ifa]           - identifier for publishers. 128-bit hexadecimal identifier (UUID)
  * @param {string|number} data.app      - inventory type = 1 - application, 0 - site
+ * @param {string|number} data.adv_id   - advertiser id (max length = 32 chars)
  * @param {string|number} data.pub_id   - publisher id (max length = 32 chars)
  * @param {string} data.inv             - app name or site address (max length = 255 chars)
  * @param {string|number} data.inv_id   - inventory id (max length = 32 chars)

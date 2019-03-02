@@ -5,13 +5,13 @@ FScanner is a service that scans traffic for fraud.
 ### Installation
 
 ```bash
-$ npm install --save fscanner-client
+$ npm install --save fscanner-nodejs
 ```
 
 ### How to implement this module in the NodeJS backend
 
 ```javascript
-const Client = require('fscanner-client')
+const Client = require('fscanner-nodejs')
 const client = new Client({
     id: 111, // customer's client id
     key: 'encryption key',
@@ -22,6 +22,7 @@ const client = new Client({
 function prepareDataExampleFunction () {
     return {
         ifa: '',
+        adv_id: 'ad37geiq3egqwe',
         app: 1,
         pub_id: 555,
         inv: 'some.application.bundle',
