@@ -48,14 +48,13 @@ class Client {
     /**
      * @method getImpressionPixelUrl
      * @description get pixel to track impression
-     * @param {number} img - image pixel flag
      * @param {string} ii - impression identifier
      * @param {string} queryHash - query hash
      * @returns {string} -
      * */
 
-    getImpressionPixelUrl (img, ii, queryHash) {
-        return `${ this.impUrl }img=${ img }&ii=${ ii }&e=${ this.id }-${ queryHash }`
+    getImpressionPixelUrl (ii, queryHash) {
+        return `${ this.impUrl }img=1&ii=${ ii }&e=${ this.id }-${ queryHash }`
     }
 
     /**
@@ -83,7 +82,7 @@ class Client {
             ii,
             clickId: data.click_id,
             queryHash,
-            tag: imageTag.replace(RE_TEMPLATE, this.getImpressionPixelUrl(+(+data.js === 1), ii, queryHash))
+            tag: imageTag.replace(RE_TEMPLATE, this.getImpressionPixelUrl(ii, queryHash))
         }
     }
 

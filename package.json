@@ -1,6 +1,6 @@
 {
   "name": "fscanner-nodejs",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "FScanner NodeJS client",
   "main": "client.js",
   "directories": {
